@@ -34,7 +34,10 @@ import org.springframework.lang.Nullable;
  * {@link org.springframework.beans.factory.ListableBeanFactory} for typical
  * use cases. This interface is just meant to allow for framework-internal
  * plug'n'play even when needing access to bean factory configuration methods.
- *
+ * ==========================JUSTINWARE==========================================
+ * 1、解析和修改BeanDefinition
+ * 2、预实例化单例（可解决循环依赖问题）
+ * ==============================================================================
  * @author Juergen Hoeller
  * @since 03.11.2003
  * @see org.springframework.context.support.AbstractApplicationContext#getBeanFactory()

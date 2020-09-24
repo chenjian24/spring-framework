@@ -512,44 +512,60 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.applicationListeners;
 	}
 
+	//==========================JUSTINWARE==========================================
+	//1、刷新上下文，ApplicationContext初始化的入口
+	//2、整个Spring框架加载的过程就是这个方法中
+	//==============================================================================
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
+			// 1. 准备刷新的上下文环境
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			// 2. 初始化BeanFactory，并进行XML文件的加载
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			// 3. 对BeanFactory进行各种功能填充
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				// 4. 子类覆盖方法做额外的处理
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				// 5. 调用BeanFactory后处理器
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				// 6. 注册bean后处理器，在调用getBean的时候回调这些bean后处理器的方法
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				// 7. 为上下文初始化Message源
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				// 8. 初始化应用消息广播器，并放入ApplicationEventMulticaster中
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				// 9. 留给子类初始化其他bean
 				onRefresh();
 
 				// Check for listener beans and register them.
+				// 10. 注册监听器
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				// 11. 初始化剩下的单例Bean（非惰性的）
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				// 12. 最后一步，发布通知事件
 				finishRefresh();
 			}
 
@@ -560,6 +576,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				}
 
 				// Destroy already created singletons to avoid dangling resources.
+				// 销毁已经创建的单例，以避免挂起资源。
 				destroyBeans();
 
 				// Reset 'active' flag.

@@ -52,7 +52,10 @@ import org.springframework.beans.BeansException;
  * programmatically registered post-processors. Furthermore, the
  * {@link org.springframework.core.annotation.Order @Order} annotation is not
  * taken into account for {@code BeanFactoryPostProcessor} beans.
- *
+ *	//==========================JUSTINWARE==========================================
+ * 	如果仅仅使用或修改bean工厂的元信息(BeanDefinition、环境信息、属性信息等)，使用普通的BeanFactory后处理器就够了，
+ * 	把逻辑写在postProcessBeanFactory方法中。
+ * 	//==============================================================================
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 06.07.2003

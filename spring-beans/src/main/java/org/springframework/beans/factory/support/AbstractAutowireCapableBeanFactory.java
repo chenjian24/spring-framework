@@ -413,6 +413,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
+			//==========================JUSTINWARE==========================================
+			//1、在bean被初始化之前，所有的bean后置处理器的postProcessBeforeInitialization方法都会被执行
+			//==============================================================================
 			Object current = processor.postProcessBeforeInitialization(result, beanName);
 			if (current == null) {
 				return result;
@@ -1760,11 +1763,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}, getAccessControlContext());
 		}
 		else {
+			//==========================JUSTINWARE==========================================
+			//1、对BeanNameAware,BeanClassLoaderAware,BeanFactoryAware进行回调注入
+			//==============================================================================
 			invokeAwareMethods(beanName, bean);
 		}
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
+			//==========================JUSTINWARE==========================================
+			//1、遍历BeanPostProcessor并进行注入
+			//==============================================================================
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 

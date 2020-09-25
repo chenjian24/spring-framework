@@ -81,6 +81,9 @@ public interface ConfigurableListableBeanFactory
 	 * ApplicationContext instance that the bean is living in.
 	 * <p>Note: There are no such default types registered in a plain BeanFactory,
 	 * not even for the BeanFactory interface itself.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、注册可解析的依赖
+	 * ==============================================================================
 	 * @param dependencyType the dependency type to register. This will typically
 	 * be a base interface such as BeanFactory, with extensions of it resolved
 	 * as well if declared as an autowiring dependency (e.g. ListableBeanFactory),
@@ -95,6 +98,9 @@ public interface ConfigurableListableBeanFactory
 	 * Determine whether the specified bean qualifies as an autowire candidate,
 	 * to be injected into other beans which declare a dependency of matching type.
 	 * <p>This method checks ancestor factories as well.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、指定Bean是否可以作为自动注入的候选
+	 * ==============================================================================
 	 * @param beanName the name of the bean to check
 	 * @param descriptor the descriptor of the dependency to resolve
 	 * @return whether the bean should be considered as autowire candidate
@@ -112,6 +118,9 @@ public interface ConfigurableListableBeanFactory
 	 * be castable to a more specific implementation type, if necessary.
 	 * <p><b>NOTE:</b> This method does <i>not</i> consider ancestor factories.
 	 * It is only meant for accessing local bean definitions of this factory.
+	 * ==========================JUSTINWARE==========================================
+	 * 获取指定BeanName的BeanDefinition
+	 * ==============================================================================
 	 * @param beanName the name of the bean
 	 * @return the registered BeanDefinition
 	 * @throws NoSuchBeanDefinitionException if there is no bean with the given name
@@ -124,6 +133,9 @@ public interface ConfigurableListableBeanFactory
 	 * <p>Includes bean definition names as well as names of manually registered
 	 * singleton instances, with bean definition names consistently coming first,
 	 * analogous to how type/annotation specific retrieval of bean names works.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、获取BeanName的Iterator
+	 * ==============================================================================
 	 * @return the composite iterator for the bean names view
 	 * @since 4.1.2
 	 * @see #containsBeanDefinition
@@ -139,6 +151,9 @@ public interface ConfigurableListableBeanFactory
 	 * <p>Typically triggered after changes to the original bean definitions,
 	 * e.g. after applying a {@link BeanFactoryPostProcessor}. Note that metadata
 	 * for beans which have already been created at this point will be kept around.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、清除Bean的元数据缓存
+	 * ==============================================================================
 	 * @since 4.2
 	 * @see #getBeanDefinition
 	 * @see #getMergedBeanDefinition
@@ -148,6 +163,9 @@ public interface ConfigurableListableBeanFactory
 	/**
 	 * Freeze all bean definitions, signalling that the registered bean definitions
 	 * will not be modified or post-processed any further.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、冻结所有Bean定义，表明注册的bean定义将不再修改或后期处理
+	 * ==============================================================================
 	 * <p>This allows the factory to aggressively cache bean definition metadata.
 	 */
 	void freezeConfiguration();
@@ -155,12 +173,18 @@ public interface ConfigurableListableBeanFactory
 	/**
 	 * Return whether this factory's bean definitions are frozen,
 	 * i.e. are not supposed to be modified or post-processed any further.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、是否被冻结
+	 * ==============================================================================
 	 * @return {@code true} if the factory's configuration is considered frozen
 	 */
 	boolean isConfigurationFrozen();
 
 	/**
 	 * Ensure that all non-lazy-init singletons are instantiated, also considering
+	 * ==========================JUSTINWARE==========================================
+	 * 1、非延迟加载的bean都实例化
+	 * ==============================================================================
 	 * {@link org.springframework.beans.factory.FactoryBean FactoryBeans}.
 	 * Typically invoked at the end of factory setup, if desired.
 	 * @throws BeansException if one of the singleton beans could not be created.

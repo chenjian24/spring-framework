@@ -91,6 +91,9 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * Handle the given reflection exception.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、包装异常，将受检查异常包装为RuntimeException
+	 * ==============================================================================
 	 * <p>Should only be called if no checked exception is expected to be thrown
 	 * by a target method, or if an error occurs while accessing a method or field.
 	 * <p>Throws the underlying RuntimeException or Error in case of an
@@ -192,6 +195,9 @@ public abstract class ReflectionUtils {
 	 * if necessary. The {@code setAccessible(true)} method is only called
 	 * when actually necessary, to avoid unnecessary conflicts with a JVM
 	 * SecurityManager (if active).
+	 * ==========================JUSTINWARE==========================================
+	 * 1、将一个构造器设置为可调用，主要针对private构造器；
+	 * ==============================================================================
 	 * @param ctor the constructor to make accessible
 	 * @see java.lang.reflect.Constructor#setAccessible
 	 */
@@ -210,6 +216,7 @@ public abstract class ReflectionUtils {
 	 * Attempt to find a {@link Method} on the supplied class with the supplied name
 	 * and no parameters. Searches all superclasses up to {@code Object}.
 	 * <p>Returns {@code null} if no {@link Method} can be found.
+
 	 * @param clazz the class to introspect
 	 * @param name the name of the method
 	 * @return the Method object, or {@code null} if none found
@@ -223,6 +230,9 @@ public abstract class ReflectionUtils {
 	 * Attempt to find a {@link Method} on the supplied class with the supplied name
 	 * and parameter types. Searches all superclasses up to {@code Object}.
 	 * <p>Returns {@code null} if no {@link Method} can be found.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、在类型clazz上，查询name方法，参数类型列表为paramTypes；
+	 * ==============================================================================
 	 * @param clazz the class to introspect
 	 * @param name the name of the method
 	 * @param paramTypes the parameter types of the method
@@ -271,6 +281,9 @@ public abstract class ReflectionUtils {
 	 * supplied arguments. The target object can be {@code null} when invoking a
 	 * static {@link Method}.
 	 * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException}.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、在指定对象(target)上，使用指定参数(args)，执行方法（method)；
+	 * ==============================================================================
 	 * @param method the method to invoke
 	 * @param target the target object to invoke the method on
 	 * @param args the invocation arguments (may be {@code null})
@@ -291,6 +304,9 @@ public abstract class ReflectionUtils {
 	 * Determine whether the given method explicitly declares the given
 	 * exception or one of its superclasses, which means that an exception
 	 * of that type can be propagated as-is within a reflective invocation.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、判断一个方法上是否声明了指定类型的异常；
+	 * ==============================================================================
 	 * @param method the declaring method
 	 * @param exceptionType the exception to throw
 	 * @return {@code true} if the exception can be thrown as-is;
@@ -311,6 +327,9 @@ public abstract class ReflectionUtils {
 	 * Perform the given callback operation on all matching methods of the given
 	 * class, as locally declared or equivalent thereof (such as default methods
 	 * on Java 8 based interfaces that the given class implements).
+	 * ==========================JUSTINWARE==========================================
+	 * 1、针对指定类型上的所有方法，依次调用MethodCallback回调；
+	 * ==============================================================================
 	 * @param clazz the class to introspect
 	 * @param mc the callback to invoke for each method
 	 * @throws IllegalStateException if introspection fails
@@ -348,6 +367,10 @@ public abstract class ReflectionUtils {
 	 * class and superclasses (or given interface and super-interfaces).
 	 * <p>The same named method occurring on subclass and superclass will appear
 	 * twice, unless excluded by the specified {@link MethodFilter}.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、针对指定类型上的所有方法，依次调用MethodCallback回调；
+	 * 2、该版本提供了一个方法匹配（过滤器）MethodFilter；
+	 * ==============================================================================
 	 * @param clazz the class to introspect
 	 * @param mc the callback to invoke for each method
 	 * @param mf the filter that determines the methods to apply the callback to
@@ -502,6 +525,9 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * Determine whether the given method is an "equals" method.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、判断方法是否是equals方法；
+	 * ==============================================================================
 	 * @see java.lang.Object#equals(Object)
 	 */
 	public static boolean isEqualsMethod(@Nullable Method method) {
@@ -516,6 +542,9 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * Determine whether the given method is a "hashCode" method.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、判断方法是否是hashcode方法；
+	 * ==============================================================================
 	 * @see java.lang.Object#hashCode()
 	 */
 	public static boolean isHashCodeMethod(@Nullable Method method) {
@@ -524,6 +553,9 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * Determine whether the given method is a "toString" method.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、判断方法是否是toString方法；
+	 * ==============================================================================
 	 * @see java.lang.Object#toString()
 	 */
 	public static boolean isToStringMethod(@Nullable Method method) {
@@ -531,6 +563,9 @@ public abstract class ReflectionUtils {
 	}
 
 	/**
+	 * ==========================JUSTINWARE==========================================
+	 * 1、判断方法是否是Object类上的方法；
+	 * ==============================================================================
 	 * Determine whether the given method is originally declared by {@link java.lang.Object}.
 	 */
 	public static boolean isObjectMethod(@Nullable Method method) {
@@ -560,6 +595,9 @@ public abstract class ReflectionUtils {
 	 * necessary. The {@code setAccessible(true)} method is only called
 	 * when actually necessary, to avoid unnecessary conflicts with a JVM
 	 * SecurityManager (if active).
+	 * ==========================JUSTINWARE==========================================
+	 * 1、将一个方法设置为可调用，主要针对private方法；
+	 * ==============================================================================
 	 * @param method the method to make accessible
 	 * @see java.lang.reflect.Method#setAccessible
 	 */
@@ -577,6 +615,10 @@ public abstract class ReflectionUtils {
 	/**
 	 * Attempt to find a {@link Field field} on the supplied {@link Class} with the
 	 * supplied {@code name}. Searches all superclasses up to {@link Object}.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、根据类型，字段名称和字段类型查询一个字段；该方法会遍历的向父类查询字段，查询到的是所有字段；
+	 * 2、使用declaredFieldsCache 进行缓存
+	 * ==============================================================================
 	 * @param clazz the class to introspect
 	 * @param name the name of the field
 	 * @return the corresponding Field object, or {@code null} if not found
@@ -620,6 +662,9 @@ public abstract class ReflectionUtils {
 	 * is automatically unwrapped if the underlying field has a primitive type.
 	 * <p>This method does not support setting {@code static final} fields.
 	 * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException(Exception)}.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、在指定对象（target）中给指定字段（field）设置指定值（value）
+	 * ==============================================================================
 	 * @param field the field to set
 	 * @param target the target object on which to set the field
 	 * @param value the value to set (may be {@code null})
@@ -639,6 +684,9 @@ public abstract class ReflectionUtils {
 	 * semantics, the returned value is automatically wrapped if the underlying field
 	 * has a primitive type.
 	 * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException(Exception)}.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、在指定对象（target)上得到指定字段(field)的值；
+	 * ==============================================================================
 	 * @param field the field to get
 	 * @param target the target object from which to get the field
 	 * @return the field's current value
@@ -656,6 +704,9 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * Invoke the given callback on all locally declared fields in the given class.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、该方法就是针对所有的字段，执行的对应的回调了；
+	 * ==============================================================================
 	 * @param clazz the target class to analyze
 	 * @param fc the callback to invoke for each field
 	 * @throws IllegalStateException if introspection fails
@@ -759,6 +810,9 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * Determine whether the given field is a "public static final" constant.
+	 * ==========================JUSTINWARE==========================================
+	 * 1、判断字段是否是public static final的；
+	 * ==============================================================================
 	 * @param field the field to check
 	 */
 	public static boolean isPublicStaticFinal(Field field) {
@@ -771,6 +825,9 @@ public abstract class ReflectionUtils {
 	 * necessary. The {@code setAccessible(true)} method is only called
 	 * when actually necessary, to avoid unnecessary conflicts with a JVM
 	 * SecurityManager (if active).
+	 * ==========================JUSTINWARE==========================================
+	 * 1、将一个字段设置为可读写，主要针对private字段；
+	 * ==============================================================================
 	 * @param field the field to make accessible
 	 * @see java.lang.reflect.Field#setAccessible
 	 */

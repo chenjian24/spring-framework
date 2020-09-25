@@ -46,7 +46,11 @@ import org.springframework.util.StringUtils;
  * <p>The autowire constants match the ones defined in the
  * {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface.
- *
+ * ==========================JUSTINWARE==========================================
+ * 1、AbstractBeanDefinition 是 BeanDefinition 的子抽象类，也是其他 BeanDefinition 类型的基类
+ * 2、实现了接口中定义的一系列操作方法，并定义了一系列的常量属性，这些常量会直接影响到 Spring 实例化 Bean 时的策略
+ * 3、 AbstractBeanDefinition 直接实现类：RootBeanDefinition、GenericBeanDefinition、ChildBeanDefinition
+ * ==============================================================================
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -62,29 +66,34 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Constant for the default scope name: {@code ""}, equivalent to singleton
 	 * status unless overridden from a parent bean definition (if applicable).
+	 * 默认的 SCOPE，默认是单例
 	 */
 	public static final String SCOPE_DEFAULT = "";
 
 	/**
 	 * Constant that indicates no external autowiring at all.
+	 * 不进行自动装配
 	 * @see #setAutowireMode
 	 */
 	public static final int AUTOWIRE_NO = AutowireCapableBeanFactory.AUTOWIRE_NO;
 
 	/**
 	 * Constant that indicates autowiring bean properties by name.
+	 * 根据 Bean 的名字进行自动装配，byName
 	 * @see #setAutowireMode
 	 */
 	public static final int AUTOWIRE_BY_NAME = AutowireCapableBeanFactory.AUTOWIRE_BY_NAME;
 
 	/**
 	 * Constant that indicates autowiring bean properties by type.
+	 * 根据 Bean 的类型进行自动装配，byType
 	 * @see #setAutowireMode
 	 */
 	public static final int AUTOWIRE_BY_TYPE = AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE;
 
 	/**
 	 * Constant that indicates autowiring a constructor.
+	 * 根据构造器进行自动装配
 	 * @see #setAutowireMode
 	 */
 	public static final int AUTOWIRE_CONSTRUCTOR = AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR;
@@ -101,6 +110,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Constant that indicates no dependency check at all.
+	 * // 通过依赖检查来查看 Bean 的每个属性是否都设置完成
+	 * // 以下常量分别对应：不检查、对依赖对象检查、对基本类型，字符串和集合进行检查、对全部属性进行检查
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_NONE = 0;
@@ -134,28 +145,29 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * name.
 	 * <p>Currently, the method names detected during destroy method inference
 	 * are "close" and "shutdown", if present on the specific bean class.
+	 * // 关闭应用上下文时需调用的方法名称
 	 */
 	public static final String INFER_METHOD = "(inferred)";
 
-
+	// 存放 Bean 的 Class 对象
 	@Nullable
 	private volatile Object beanClass;
-
+	// Bean 的作用范围
 	@Nullable
 	private String scope = SCOPE_DEFAULT;
-
+	// 非抽象
 	private boolean abstractFlag = false;
-
+	// 非延迟加载
 	@Nullable
 	private Boolean lazyInit;
-
+	// 默认不自动装配
 	private int autowireMode = AUTOWIRE_NO;
-
+	// 默认不依赖检查
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;
-
+	// 依赖的 Bean 列表
 	@Nullable
 	private String[] dependsOn;
-
+	// 可以作为自动装配的候选者，意味着可以自动装配到其他 Bean 的某个属性中
 	private boolean autowireCandidate = true;
 
 	private boolean primary = false;
@@ -168,21 +180,21 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	private boolean nonPublicAccessAllowed = true;
 
 	private boolean lenientConstructorResolution = true;
-
+	// 创建当前 Bean 实例工厂类名称
 	@Nullable
 	private String factoryBeanName;
-
+	// 创建当前 Bean 实例工厂类中方法名称
 	@Nullable
 	private String factoryMethodName;
-
+	// 存储构造方法的参数
 	@Nullable
 	private ConstructorArgumentValues constructorArgumentValues;
-
+	// 存储 Bean 属性名称以及对应的值
 	@Nullable
 	private MutablePropertyValues propertyValues;
-
+	// 存储被覆盖的方法信息
 	private MethodOverrides methodOverrides = new MethodOverrides();
-
+	// init、destroy 方法名称
 	@Nullable
 	private String initMethodName;
 
@@ -192,14 +204,14 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	private boolean enforceInitMethod = true;
 
 	private boolean enforceDestroyMethod = true;
-
+	// Bean 是否是用户定义的而不是应用程序本身定义的
 	private boolean synthetic = false;
-
+	// Bean 的身份类别，默认是用户定义的 Bean
 	private int role = BeanDefinition.ROLE_APPLICATION;
-
+	// Bean 的描述信息
 	@Nullable
 	private String description;
-
+	// Bean 定义的资源
 	@Nullable
 	private Resource resource;
 

@@ -30,6 +30,10 @@ import org.springframework.lang.Nullable;
  * @since 2.5
  * @see AnnotatedGenericBeanDefinition
  * @see org.springframework.core.type.AnnotationMetadata
+ * ==========================JUSTINWARE==========================================
+ * 1、该接口扩展了 BeanDefinition 的功能，其用来操作注解元数据。
+ * 2、一般情况下，通过注解方式得到的 Bean（@Component、@Bean），其 BeanDefinition 类型都是该接口的实现类。
+ * ==============================================================================
  */
 public interface AnnotatedBeanDefinition extends BeanDefinition {
 
@@ -37,6 +41,10 @@ public interface AnnotatedBeanDefinition extends BeanDefinition {
 	 * Obtain the annotation metadata (as well as basic class metadata)
 	 * for this bean definition's bean class.
 	 * @return the annotation metadata object (never {@code null})
+	 * ==========================JUSTINWARE==========================================
+	 * 1、获得当前 Bean 的注解元数据
+	 * 2、AnnotationMetadata：主要对 Bean 的注解信息进行操作，如：获取当前 Bean 标注的所有注解、判断是否包含指定注解。
+	 * ==============================================================================
 	 */
 	AnnotationMetadata getMetadata();
 
@@ -44,6 +52,10 @@ public interface AnnotatedBeanDefinition extends BeanDefinition {
 	 * Obtain metadata for this bean definition's factory method, if any.
 	 * @return the factory method metadata, or {@code null} if none
 	 * @since 4.1.1
+	 * ==========================JUSTINWARE==========================================
+	 * 1、获得当前 Bean 的工厂方法上的元数据
+	 * 2、MethodMetadata：方法的元数据类。提供获取方法名称、此方法所属类的全类名、是否是抽象方法、判断是否是静态方法、判断是否是final方法等。
+	 * ==============================================================================
 	 */
 	@Nullable
 	MethodMetadata getFactoryMethodMetadata();

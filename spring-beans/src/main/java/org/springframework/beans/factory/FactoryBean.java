@@ -53,7 +53,16 @@ import org.springframework.lang.Nullable;
  * synchronization of bean creation. There is usually no need for internal
  * synchronization other than for purposes of lazy initialization within the
  * FactoryBean itself (or the like).
- *
+ * ==========================JUSTINWARE==========================================
+ * 1、一般情况下，Spring通过反射机制利用<bean>的class属性指定实现类实例化Bean，在某些情况下，实例化Bean过程比较复杂，如果按照传统的方式，则需要在<bean>中提供大量的配置信息。配置方式的灵活性是受限的，这时采用编码的方式可能会得到一个简单的方案。
+ * 2、Spring为此提供了一个FactoryBean的工厂类接口，用户可以通过实现该接口定制实例化Bean的逻辑。
+ * 3、FactoryBean接口对于Spring框架来说占用重要的地位，Spring自身就提供了70多个FactoryBean的实现。它们隐藏了实例化一些复杂Bean的细节，给上层应用带来了便利。
+ * 4、从Spring3.0开始，FactoryBean开始支持泛型，即接口声明改为FactoryBean<T>的形式
+ * 5、当配置文件中<bean>的class属性配置的实现类是FactoryBean时，通过getBean()方法返回的不是FactoryBean本身，而是FactoryBean#getObject()方法所返回的对象，
+ * 相当于FactoryBean#getObject()代理了getBean()方法。
+ * 6、当调用getBean("car")时，Spring通过反射机制发现CarFactoryBean实现了FactoryBean的接口，这时Spring容器就调用接口方法CarFactoryBean#getObject()方法返回。
+ * 如果希望获取CarFactoryBean的实例，则需要在使用getBean(beanName)方法时在beanName前显示的加上"&"前缀：如getBean("&car");
+ * ==============================================================================
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 08.03.2003
@@ -91,6 +100,7 @@ public interface FactoryBean<T> {
 	 * @return an instance of the bean (can be {@code null})
 	 * @throws Exception in case of creation errors
 	 * @see FactoryBeanNotInitializedException
+	 * 返回由FactoryBean创建的Bean实例，如果isSingleton()返回true，则该实例会放到Spring容器中单实例缓存池中
 	 */
 	@Nullable
 	T getObject() throws Exception;
@@ -113,6 +123,8 @@ public interface FactoryBean<T> {
 	 * @return the type of object that this FactoryBean creates,
 	 * or {@code null} if not known at the time of the call
 	 * @see ListableBeanFactory#getBeansOfType
+	 * 返回FactoryBean创建的Bean类型。
+	 *
 	 */
 	@Nullable
 	Class<?> getObjectType();
@@ -141,6 +153,7 @@ public interface FactoryBean<T> {
 	 * @return whether the exposed object is a singleton
 	 * @see #getObject()
 	 * @see SmartFactoryBean#isPrototype()
+	 * 返回由FactoryBean创建的Bean实例的作用域是singleton还是prototype；
 	 */
 	default boolean isSingleton() {
 		return true;

@@ -39,7 +39,7 @@ import org.springframework.util.ObjectUtils;
  */
 @SuppressWarnings("serial")
 public class GenericBeanDefinition extends AbstractBeanDefinition {
-
+	//可以通过 setParentName 方法设置父 BeanDefinition
 	@Nullable
 	private String parentName;
 

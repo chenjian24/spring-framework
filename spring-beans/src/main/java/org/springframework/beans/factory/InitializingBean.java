@@ -24,7 +24,10 @@ package org.springframework.beans.factory;
  * <p>An alternative to implementing {@code InitializingBean} is specifying a custom
  * init method, for example in an XML bean definition. For a list of all bean
  * lifecycle methods, see the {@link BeanFactory BeanFactory javadocs}.
- *
+ * ==========================JUSTINWARE==========================================
+ * 1、InitializingBean接口为bean提供了初始化方法的方式，它只包括afterPropertiesSet方法，凡是继承该接口的类，在初始化bean的时候会执行该方法。
+ * 2、在spring初始化bean的时候，如果该bean是实现了InitializingBean接口，并且同时在配置文件中指定了init-method，系统则是先调用afterPropertiesSet方法，然后在调用init-method中指定的方法。
+ * ==============================================================================
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see DisposableBean
